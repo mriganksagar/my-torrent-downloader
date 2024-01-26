@@ -1,0 +1,9 @@
+.container_search_and_go{
+    display: flex;
+    padding: 20px;
+    background-color:peachpuff;
+    justify-content: space-evenly;
+    margin-top: 50px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
