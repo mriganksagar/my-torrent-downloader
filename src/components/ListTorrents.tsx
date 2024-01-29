@@ -30,11 +30,11 @@ const TorrentCard: React.FC<{torrent:Torrent}> = ({torrent})=>{
 export const ListTorrents = () => {
   const[fake, setFake] = useState<boolean>(false);
   useEffect(()=>{
-    const interval = setInterval(()=>{
+    const _interval = setInterval(()=>{
       setFake((f)=>!f);
     },600);
     return(()=>{
-      clearInterval(interval);
+      clearInterval(_interval);
     })
   },[]);
 
