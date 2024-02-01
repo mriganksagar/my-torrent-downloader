@@ -1,3 +1,4 @@
+import React from "react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { TorrentInfo } from "@/lib/data-types";
 import { Checkbox } from "@/shadui/ui/checkbox";
@@ -9,15 +10,26 @@ import {
   TimerLogo,
   UploadLogo,
 } from "@/assets";
-import styled from "@emotion/styled";
+import { cn } from "@/lib/utils";
 
 const columnHelper = createColumnHelper<TorrentInfo>();
 
-const ColumnHeaderContainer = styled.div.attrs({
+interface ColumnHeaderContainerProps {
+  children?: React.ReactNode;
+  className?: string;
+}
+const ColumnHeaderContainer: React.FC<ColumnHeaderContainerProps> = ({
+  children,
+  className,
+  ...restProps
+}) => {
+  return (
+    <div className={cn("flex", "gap-2", className)} {...restProps}>
+      {children}
+    </div>
+  );
+};
 
-})
-
-const containercolumnheader = css
 export const ColumnsForTorrentList = [
   columnHelper.display({
     id: "select",
@@ -51,10 +63,10 @@ export const ColumnsForTorrentList = [
     id: "dateAdded",
     header() {
       return (
-        <div className="flex">
+        <ColumnHeaderContainer>
           <CalendarLogo />
-          <p>Date Added</p>
-        </div>
+          <div>Date Added</div>
+        </ColumnHeaderContainer>
       );
     },
     cell({ cell }) {
@@ -71,10 +83,10 @@ export const ColumnsForTorrentList = [
     id: "downloaded",
     header() {
       return (
-        <div className="flex">
+        <ColumnHeaderContainer>
           <DownloadLogo />
           <p>Downloaded</p>
-        </div>
+        </ColumnHeaderContainer>
       );
     },
     cell({ row, cell }) {
@@ -90,10 +102,10 @@ export const ColumnsForTorrentList = [
     id: "uploaded",
     header() {
       return (
-        <div className="flex">
+        <ColumnHeaderContainer>
           <UploadLogo />
           <p>Uploaded</p>
-        </div>
+        </ColumnHeaderContainer>
       );
     },
     cell({ row, cell }) {
@@ -109,10 +121,10 @@ export const ColumnsForTorrentList = [
     id: "eta",
     header() {
       return (
-        <div className="flex">
+        <ColumnHeaderContainer>
           <ClockLogo />
           <p>ETA</p>
-        </div>
+        </ColumnHeaderContainer>
       );
     },
     cell({ cell }) {
@@ -123,10 +135,10 @@ export const ColumnsForTorrentList = [
     id: "totalFiles",
     header() {
       return (
-        <div className="flex">
+        <ColumnHeaderContainer>
           <FilesLogo />
           <p>Total Files</p>
-        </div>
+        </ColumnHeaderContainer>
       );
     },
     cell({ cell }) {
@@ -137,10 +149,10 @@ export const ColumnsForTorrentList = [
     id: "status",
     header() {
       return (
-        <div className="flex">
+        <ColumnHeaderContainer>
           <TimerLogo />
           <p>Status</p>
-        </div>
+        </ColumnHeaderContainer>
       );
     },
     cell({ cell, row }) {
