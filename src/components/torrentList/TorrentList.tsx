@@ -16,8 +16,6 @@ export function TorrentList() {
   }, []);
 
   const torrentInfoList = webTorrentClient.torrents.map((torrent)=> new TorrentInfo(torrent));
-  console.log("rendering");
-  console.log(torrentInfoList);
   return (
     <DataTable columns={ColumnsForTorrentList} data={torrentInfoList}/>
     // <div>basf</div>

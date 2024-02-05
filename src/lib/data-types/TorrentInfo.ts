@@ -1,14 +1,7 @@
 import type { Torrent } from "webtorrent";
 import prettyMilliSeconds from "pretty-ms";
 import { format } from 'date-fns';
-
-enum Status {
-  Waiting = "Waiting",
-  Downloading = "Downloading",
-  Seeding = "Seeding",
-  Paused = "Paused",
-  Finished = "Finished",
-}
+import { TorrentStatus as Status } from "./TorrentStatus";
 
 type DateAdded = {
     date: Date
@@ -28,9 +21,9 @@ export class TorrentInfo {
   totalFiles: number;
   status: Status;
   progress: string;
-  dateAdded: DateAdded;
+  dateCreated: DateAdded;
 
-  private _convertToBigB(size: number): string {
+  private _convertToBigBytes(size: number, speed: boolean = false): string {
     // this convert the size from bytes to bigger Units such as KB , MB, GB to make it readable
     enum SizeUnit {
       B,
@@ -46,8 +39,10 @@ export class TorrentInfo {
     }
     let sizeFormated = size.toFixed(1);
     sizeFormated = sizeFormated.replace(/\.0$/, "");
-    const SizeUnitKeys = Object.keys(SizeUnit);
-    return sizeFormated + " " + SizeUnitKeys[sizeUnit];
+    const SizeUnitKeys = Object.values(SizeUnit);
+    let formattedBytes = sizeFormated + " " + SizeUnitKeys[sizeUnit];
+    if(speed) formattedBytes += "/s";
+    return formattedBytes;
   }
 
   private _formatDateAndTime(date: Date): DateAdded {
@@ -78,15 +73,15 @@ export class TorrentInfo {
   constructor(torrent: Torrent) {
     this.id = torrent.infoHash;
     this.name = torrent.name;
-    this.size = this._convertToBigB(torrent.length);
-    this.downloadSpeed = this._convertToBigB(torrent.downloadSpeed);
-    this.downloaded = this._convertToBigB(torrent.downloaded);
-    this.uploadSpeed = this._convertToBigB(torrent.uploadSpeed);
-    this.uploaded = this._convertToBigB(torrent.uploaded);
+    this.size = this._convertToBigBytes(torrent.length);
+    this.downloadSpeed = this._convertToBigBytes(torrent.downloadSpeed, true);
+    this.downloaded = this._convertToBigBytes(torrent.downloaded);
+    this.uploadSpeed = this._convertToBigBytes(torrent.uploadSpeed, true);
+    this.uploaded = this._convertToBigBytes(torrent.uploaded);
     this.eta = this._getETA(torrent.timeRemaining);
     this.totalFiles = torrent.files.length;
     this.status = this._getStatus(torrent);
     this.progress = this._getProgress(torrent.progress);
-    this.dateAdded = this._formatDateAndTime(torrent.created);
+    this.dateCreated = this._formatDateAndTime(torrent.created);
   }
 }

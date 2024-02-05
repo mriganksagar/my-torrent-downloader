@@ -1,5 +1,5 @@
-import { ColumnsForTorrentList } from "./ColumnsForTorrentList";
+import { TorrentListColumns } from "./TorrentListColumns";
 
 export {
-    ColumnsForTorrentList,
+    TorrentListColumns as ColumnsForTorrentList,
 }
