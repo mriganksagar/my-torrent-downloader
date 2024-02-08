@@ -1,6 +1,9 @@
+/* eslint-disable react-refresh/only-export-components */
 import React from "react";
+import { Torrent } from "webtorrent";
+import { webTorrentClient } from "@/singleton";
 import { createColumnHelper } from "@tanstack/react-table";
-import { TorrentInfo } from "@/lib/data-types";
+import { TorrentInfo, TorrentStatus as Status } from "@/lib/data-types";
 import { Checkbox } from "@/shadui/ui/checkbox";
 import {
   ClockLogo,
@@ -11,8 +14,6 @@ import {
   TimerLogo,
   UploadLogo,
 } from "@/assets";
-import { cn } from "@/lib/utils";
-import { TorrentStatus as Status } from "@/lib/data-types/TorrentStatus";
 import { MoreHorizontal } from "lucide-react";
 import {
   DropdownMenu,
@@ -20,41 +21,9 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/shadui/ui/dropdown-menu";
-import { webTorrentClient } from "@/singleton";
-import { Torrent } from "webtorrent";
+import { CellContainer, HeaderContainer } from "./headerAndCellContainer";
 
 const columnHelper = createColumnHelper<TorrentInfo>();
-
-interface DivProps {
-  children?: React.ReactNode;
-  className?: string;
-}
-const ColumnHeaderContainer: React.FC<DivProps> = ({
-  children,
-  className,
-  ...restProps
-}) => {
-  return (
-    <div
-      className={cn("flex", "gap-2", "justify-center", className)}
-      {...restProps}
-    >
-      {children}
-    </div>
-  );
-};
-
-const CellContainer: React.FC<DivProps> = ({
-  children,
-  className,
-  ...restProps
-}) => {
-  return (
-    <div className={cn("flex-col", "items-center", className)} {...restProps}>
-      {children}
-    </div>
-  );
-};
 
 const StatusCell: React.FC<{ status: Status; progress: string }> = ({
   status,
@@ -150,7 +119,7 @@ export const TorrentListColumns = [
   columnHelper.accessor("name", {
     id: "name",
     header() {
-      return <ColumnHeaderContainer>Name</ColumnHeaderContainer>;
+      return <HeaderContainer>Name</HeaderContainer>;
     },
     cell({ cell }) {
       return <CellContainer>{cell.getValue()}</CellContainer>;
@@ -161,10 +130,10 @@ export const TorrentListColumns = [
     id: "downloaded",
     header() {
       return (
-        <ColumnHeaderContainer>
+        <HeaderContainer>
           <DownloadLogo />
           <p>Downloaded</p>
-        </ColumnHeaderContainer>
+        </HeaderContainer>
       );
     },
     cell({ row, cell }) {
@@ -180,10 +149,10 @@ export const TorrentListColumns = [
     id: "uploaded",
     header() {
       return (
-        <ColumnHeaderContainer>
+        <HeaderContainer>
           <UploadLogo />
           <p>Uploaded</p>
-        </ColumnHeaderContainer>
+        </HeaderContainer>
       );
     },
     cell({ row, cell }) {
@@ -199,10 +168,10 @@ export const TorrentListColumns = [
     id: "eta",
     header() {
       return (
-        <ColumnHeaderContainer>
+        <HeaderContainer>
           <ClockLogo />
           <p>ETA</p>
-        </ColumnHeaderContainer>
+        </HeaderContainer>
       );
     },
     cell({ cell }) {
@@ -213,10 +182,10 @@ export const TorrentListColumns = [
     id: "totalFiles",
     header() {
       return (
-        <ColumnHeaderContainer>
+        <HeaderContainer>
           <FilesLogo />
           <p>Total Files</p>
-        </ColumnHeaderContainer>
+        </HeaderContainer>
       );
     },
     cell({ cell }) {
@@ -227,10 +196,10 @@ export const TorrentListColumns = [
     id: "status",
     header() {
       return (
-        <ColumnHeaderContainer>
+        <HeaderContainer>
           <TimerLogo />
           <p>Status</p>
-        </ColumnHeaderContainer>
+        </HeaderContainer>
       );
     },
     cell({ cell, row }) {

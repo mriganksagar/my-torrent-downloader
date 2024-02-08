@@ -1,87 +1,103 @@
 import type { Torrent } from "webtorrent";
 import prettyMilliSeconds from "pretty-ms";
-import { format } from 'date-fns';
+// import { format } from "date-fns";
 import { TorrentStatus as Status } from "./TorrentStatus";
+import { formatBytesToBigBytes as convertBytes, formatDownloadingProgress as formatProgress } from "@/lib/utils";
 
-type DateAdded = {
-    date: Date
-    formattedDate: string
-    time: string
-}
+// type DateAdded = {
+//   date: Date;
+//   formattedDate: string;
+//   time: string;
+// };
 
 export class TorrentInfo {
-  id: string;
-  name: string;
-  size: string;
-  downloadSpeed: string;
-  downloaded: string;
-  uploadSpeed: string;
-  uploaded: string;
-  eta: string;
-  totalFiles: number;
-  status: Status;
-  progress: string;
-  dateCreated: DateAdded;
+  #_id: string;
+  #_name: string;
+  #_size: number;
+  #_downloadSpeed: number;
+  #_downloaded: number;
+  #_uploadSpeed: number;
+  #_uploaded: number;
+  #_eta: number;
+  #_totalFiles: number;
+  #_status: Status;
+  #_progress: number;
+  // #_dateAdded: Date;
 
-  private _convertToBigBytes(size: number, speed: boolean = false): string {
-    // this convert the size from bytes to bigger Units such as KB , MB, GB to make it readable
-    enum SizeUnit {
-      B,
-      KB,
-      MB,
-      GB,
-      TB,
-    }
-    let sizeUnit = SizeUnit.B;
-    while (size >= 1000) {
-      size = size / 1024;
-      sizeUnit++;
-    }
-    let sizeFormated = size.toFixed(1);
-    sizeFormated = sizeFormated.replace(/\.0$/, "");
-    const SizeUnitKeys = Object.values(SizeUnit);
-    let formattedBytes = sizeFormated + " " + SizeUnitKeys[sizeUnit];
-    if(speed) formattedBytes += "/s";
-    return formattedBytes;
+  get id() {
+    return this.#_id;
+  }
+  get name() {
+    return this.#_name;
+  }
+  get size() {
+    if(Number.isNaN(this.#_size)) return "...";
+    return convertBytes(this.#_size);
+  }
+  get downloadSpeed() {
+    if(Number.isNaN(this.#_downloadSpeed)) return "...";
+    return convertBytes(this.#_downloadSpeed, true);
+  }
+  get uploadSpeed() {
+    if(Number.isNaN(this.#_uploadSpeed)) return "...";
+    return convertBytes(this.#_uploadSpeed, true);
+  }
+  get downloaded() {
+    if(Number.isNaN(this.#_downloaded)) return "...";
+    return convertBytes(this.#_downloaded);
+  }
+  get uploaded() {
+    if(Number.isNaN(this.#_uploaded)) return "...";
+    return convertBytes(this.#_uploaded);
+  }
+  get eta() {
+    return this.#_getETA(this.#_eta);
+  }
+  get totalFiles() {
+    if(Number.isNaN(this.#_totalFiles)) return "...";
+    return this.#_totalFiles;
+  }
+  get status() {
+    return this.#_status;
+  }
+  get progress() {
+    if(Number.isNaN(this.#_progress)) return "...";
+    return formatProgress(this.#_progress);
   }
 
-  private _formatDateAndTime(date: Date): DateAdded {
-    const _x = format(date, "dd/MM/yy HH:mm").split(" ");
-    return {
-        date: date,
-        formattedDate: _x[0],
-        time: _x[1],
-    }
-  }
-  private _getETA(timeRemaining: number): string {
+  // private _formatDateAndTime(date: Date): DateAdded {
+  //   const _x = format(date, "dd/MM/yy HH:mm").split(" ");
+  //   return {
+  //     date: date,
+  //     formattedDate: _x[0],
+  //     time: _x[1],
+  //   };
+  // }
+  #_getETA(timeRemaining: number): string {
     // make time ramaining readable
+    if(this.#_eta === Infinity) return "Infinity";
     return prettyMilliSeconds(timeRemaining, { compact: true, verbose: true });
   }
 
-  private _getStatus(torrent: Torrent): Status {
+  #_getStatus(torrent: Torrent): Status {
     let status: Status;
     status = torrent.ready ? Status.Downloading : Status.Waiting;
-    if (torrent.downloaded) status = Status.Seeding;
+    if (torrent.progress == 1) status = Status.Seeding;
     if (torrent.paused) status = Status.Paused;
     return status;
   }
 
-  private _getProgress(progress: number): string {
-    // make progress a readable string
-    return (progress * 100).toFixed(2).replace(/\.00$/, "") + "% Downloaded";
-  }
   constructor(torrent: Torrent) {
-    this.id = torrent.infoHash;
-    this.name = torrent.name;
-    this.size = this._convertToBigBytes(torrent.length);
-    this.downloadSpeed = this._convertToBigBytes(torrent.downloadSpeed, true);
-    this.downloaded = this._convertToBigBytes(torrent.downloaded);
-    this.uploadSpeed = this._convertToBigBytes(torrent.uploadSpeed, true);
-    this.uploaded = this._convertToBigBytes(torrent.uploaded);
-    this.eta = this._getETA(torrent.timeRemaining);
-    this.totalFiles = torrent.files.length;
-    this.status = this._getStatus(torrent);
-    this.progress = this._getProgress(torrent.progress);
-    this.dateCreated = this._formatDateAndTime(torrent.created);
+    this.#_id = torrent.infoHash;
+    this.#_name = torrent.name;
+    this.#_size = torrent.length;
+    this.#_downloadSpeed = torrent.downloadSpeed;
+    this.#_downloaded = torrent.downloaded;
+    this.#_uploadSpeed = torrent.uploadSpeed;
+    this.#_uploaded = torrent.uploaded;
+    this.#_eta = torrent.timeRemaining;
+    this.#_totalFiles = torrent.files.length;
+    this.#_status = this.#_getStatus(torrent);
+    this.#_progress = torrent.progress;
   }
 }

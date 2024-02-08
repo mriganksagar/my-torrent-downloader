@@ -23,17 +23,7 @@ export function AddTorrent() {
     setMagUrl(e.target.value);
   }
   function addTorrentHandler() {
-    const torrent = webTorrentClient.add(magUrl, (torrent) => {
-      torrent.on("error", () => {
-        console.log("customm error and can't add this torrent");
-      });
-    });
-    // torrent.on("error", () => {
-    //   setWrongMagUrl(true);
-    //   setTimeout(()=>{
-    //     setWrongMagUrl(false);
-    //   },2000)
-    // });
+    webTorrentClient.add(magUrl);
   }
   return (
     <>
