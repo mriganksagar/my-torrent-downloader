@@ -6,7 +6,9 @@ import { TorrentFile } from "webtorrent";
 //     Maximum
 // }
 import { formatBytesToBigBytes, formatDownloadingProgress } from "../utils";
+import { UUID } from "crypto";
 export class FileInfo {
+    #_id: UUID;
     #_name: string;
     #_size: number;
     #_downloaded: number;
@@ -15,6 +17,7 @@ export class FileInfo {
     #_path: string;
     #_type: string;
     constructor(file: TorrentFile){
+        this.#_id = crypto.randomUUID();
         this.#_name = file.name;
         this.#_size = file.length;
         this.#_downloaded = file.downloaded;
@@ -23,6 +26,9 @@ export class FileInfo {
         this.#_type = file.type;
     }
 
+    get id(){
+        return this.#_id;
+    }
     get name(){
         return this.#_name;
     }

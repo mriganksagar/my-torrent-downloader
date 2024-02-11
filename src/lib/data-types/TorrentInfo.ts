@@ -31,23 +31,18 @@ export class TorrentInfo {
     return this.#_name;
   }
   get size() {
-    if(Number.isNaN(this.#_size)) return "...";
     return convertBytes(this.#_size);
   }
   get downloadSpeed() {
-    if(Number.isNaN(this.#_downloadSpeed)) return "...";
     return convertBytes(this.#_downloadSpeed, true);
   }
   get uploadSpeed() {
-    if(Number.isNaN(this.#_uploadSpeed)) return "...";
     return convertBytes(this.#_uploadSpeed, true);
   }
   get downloaded() {
-    if(Number.isNaN(this.#_downloaded)) return "...";
     return convertBytes(this.#_downloaded);
   }
   get uploaded() {
-    if(Number.isNaN(this.#_uploaded)) return "...";
     return convertBytes(this.#_uploaded);
   }
   get eta() {
@@ -61,7 +56,6 @@ export class TorrentInfo {
     return this.#_status;
   }
   get progress() {
-    if(Number.isNaN(this.#_progress)) return "...";
     return formatProgress(this.#_progress);
   }
 

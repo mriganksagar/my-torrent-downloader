@@ -1,14 +1,16 @@
-import './App.css'
-// import { TorrentBrowser } from './TorrentBrowser'
-import { Dashboard } from './pages/Dashboard'
+import { Outlet } from "react-router-dom";
+import { AddTorrent } from "./components";
+import "./App.css";
+import { Header } from "./components/Header";
+import { Button } from "./shadui/ui/button";
 
-function App() {
-
+export default function App(){
   return (
     <>
-      <Dashboard/>
+      <Header/>
+      <div className="appcontainer">
+        <Outlet/>
+      </div>
     </>
   )
 }
-
-export default App

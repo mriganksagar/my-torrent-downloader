@@ -6,14 +6,18 @@ import FilesLogo from './document.svg?react';
 import TimerLogo from './timer.svg?react';
 import PauseLogo from './pause.svg?react';
 import ResumeLogo from './resume.svg?react';
+import UploadFileIcon from './uploadFile.svg?react';
+import PirateLogo from './pirate-ship-svgrepo-com.svg?react';
 
 export {
+    CalendarLogo,
     ClockLogo,
     DownloadLogo,
-    UploadLogo,
-    CalendarLogo,
     FilesLogo,
-    TimerLogo,
     PauseLogo,
     ResumeLogo,
+    TimerLogo,
+    UploadFileIcon,
+    UploadLogo,
+    PirateLogo,
 }

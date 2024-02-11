@@ -5,7 +5,7 @@ import { Input } from "@/shadui/ui/input";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 // import { LightContainer } from "./common";
-import { webTorrentClient } from "@/singleton";
+import { webTorrentClient } from "@/lib/singleton";
 import {
   Card,
   CardFooter,

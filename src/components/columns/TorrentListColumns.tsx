@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import React from "react";
 import { Torrent } from "webtorrent";
-import { webTorrentClient } from "@/singleton";
+import { webTorrentClient } from "@/lib/singleton";
 import { createColumnHelper } from "@tanstack/react-table";
 import { TorrentInfo, TorrentStatus as Status } from "@/lib/data-types";
 import { Checkbox } from "@/shadui/ui/checkbox";
@@ -14,14 +14,15 @@ import {
   TimerLogo,
   UploadLogo,
 } from "@/assets";
-import { MoreHorizontal } from "lucide-react";
+import { FilesIcon, MoreHorizontal } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/shadui/ui/dropdown-menu";
-import { CellContainer, HeaderContainer } from "./headerAndCellContainer";
+import { CellContainer, HeaderContainer } from "./DivContainers";
+import { useNavigate } from "react-router-dom";
 
 const columnHelper = createColumnHelper<TorrentInfo>();
 
@@ -66,8 +67,14 @@ const onResumeTorrent = (torrentId: string) => {
   webTorrentClient.get(torrentId).then((torrent: Torrent) => torrent.resume());
 };
 
-const ActionsCell: React.FC<{ torrentId: string }> = ({ torrentId }) => (
-  <DropdownMenu>
+const ActionsCell: React.FC<{ torrentId: string }> = ({ torrentId }) => {
+  const navigate = useNavigate();
+
+  //console logg to be removed later
+  console.log("logging torrent id in actions cell");
+  console.log(torrentId);
+  
+  return (<DropdownMenu>
     <DropdownMenuTrigger asChild>
       <MoreHorizontal />
     </DropdownMenuTrigger>
@@ -86,9 +93,16 @@ const ActionsCell: React.FC<{ torrentId: string }> = ({ torrentId }) => (
         <ResumeLogo />
         Resume
       </DropdownMenuItem>
+      <DropdownMenuItem
+        onClick={()=> navigate(`/torrents/${torrentId}/files`)}
+        className="justify-content gap-2"
+      >
+        <FilesIcon className="text-green-500"/> 
+        Show Files
+      </DropdownMenuItem>
     </DropdownMenuContent>
-  </DropdownMenu>
-);
+  </DropdownMenu>);
+}  
 
 export const TorrentListColumns = [
   columnHelper.display({
