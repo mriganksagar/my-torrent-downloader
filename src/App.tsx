@@ -1,14 +1,12 @@
 import { Outlet } from "react-router-dom";
-import { AddTorrent } from "./components";
-import "./App.css";
 import { Header } from "./components/Header";
-import { Button } from "./shadui/ui/button";
+import { cn } from "./lib/utils";
 
 export default function App(){
   return (
     <>
       <Header/>
-      <div className="appcontainer">
+      <div className={cn("flex","flex-col","p-4", "mx-auto", "flex-1", "w-full")}>
         <Outlet/>
       </div>
     </>

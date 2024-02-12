@@ -12,7 +12,7 @@ export const HeaderContainer: React.FC<DivProps> = ({
 }) => {
   return (
     <div
-      className={cn("flex", "gap-2", "justify-center", className)}
+      className={cn("flex", "gap-2", "justify-center", "items-center", className)}
       {...restProps}
     >
       {children}
