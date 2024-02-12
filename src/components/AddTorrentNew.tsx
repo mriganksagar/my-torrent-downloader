@@ -13,8 +13,8 @@ export const AddTorrent = () => {
       <DialogTrigger>
         <Button
           className={cn(
-            "bg-cyan-500",
-            "hover:bg-cyan-600",
+            "bg-cyan-400",
+            "hover:bg-cyan-500",
             "text-black",
             "gap-2",
             "w-1/12",
@@ -37,7 +37,7 @@ export const AddTorrent = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <Link className="text-cyan-200" />
+                <Link className="text-blue-950" />
               </InputAdornment>
             ),
           }}

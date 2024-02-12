@@ -1,6 +1,4 @@
 import { cn } from "@/lib/utils";
-import { styled } from "@mui/material";
-import { ReactJSXElement } from "node_modules/@emotion/react/dist/declarations/types/jsx-namespace";
 import React, { DragEventHandler, ReactNode, RefObject, useCallback, useEffect, useRef, useState } from "react";
 
 type Props = {
@@ -62,9 +60,8 @@ export function Dropzone({ onUpload, children, Element }: Props) {
                 "flex-col",
                 "items-center",
                 "justify-center",
-                "h-min-32",
-                "h-max-5/12",
-                "bg-zinc-200",
+                "min-h-60",
+                "bg-slate-200",
                 "rounded-md",
                 "p-4"
             )}

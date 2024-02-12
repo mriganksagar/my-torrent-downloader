@@ -15,8 +15,8 @@ export const Header = () => {
                 "p-4"
             )}
         >
-            <PirateLogo width="80"/>
-            <h1 className={cn("text-2xl", "text-sky-200")}>
+            <PirateLogo className={cn("sm:size-20", "xsm:size-10")}/>
+            <h1 className={cn("text-xl", "text-sky-200")}>
                 Torrent Downloader
             </h1>
             <AddTorrent />
