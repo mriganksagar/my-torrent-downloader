@@ -19,6 +19,7 @@ type Props = {
 const Overlay = styled("div")({
     gridColumn: "1/2",
     gridRow: "1/2",
+    zIndex: 9999,
 });
 
 const ContentWrapper = styled("div")({
@@ -99,13 +100,13 @@ export function Dropzone({ onUpload, children, Element }: Props) {
                 "grid-cols-1",
                 "grid-rows-1",
                 "min-h-60",
-                "bg-slate-200",
+                enteredDrag ? "bg-slate-200" : "bg-slate-100",
                 "rounded-lg",
                 "p-4"
             )}
             ref={drop}
         >
-            {enteredDrag && <Overlay ref={overlay} className={cn("-m-4", "bg-slate-400", "rounded-lg")} />}
+            {enteredDrag && <Overlay ref={overlay} className={cn("-m-4", "rounded-lg", "bg-slate-200/30")} />}
             <ContentWrapper>
                 <Element dragging={enteredDrag} />
                 {children}
