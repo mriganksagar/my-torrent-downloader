@@ -9,7 +9,6 @@ export const DropZoneInside: React.FC<{ dragging: boolean }> = ({ dragging }) =>
       <h2>Drag and Drop to upload Files</h2>
       <Button variant={"link"}>Browse</Button>
       {/* <Input type="file" /> */}
-      {dragging && "dragg ho rha hai"}
     </>
   );
 };

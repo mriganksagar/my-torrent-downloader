@@ -4,7 +4,7 @@ export const useRefresher = () =>{
     useEffect(() => {
         const interval = setInterval(() => {
             setFake((f:boolean) => !f);
-        }, 6000);
+        }, 1000);
         return () => {
             clearInterval(interval);
         };

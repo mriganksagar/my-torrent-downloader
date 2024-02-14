@@ -12,7 +12,7 @@ export const HeaderContainer: React.FC<DivProps> = ({
 }) => {
   return (
     <div
-      className={cn("flex", "gap-2", "justify-center", "items-center", className)}
+      className={cn("flex", "gap-2", "items-center", className)}
       {...restProps}
     >
       {children}
@@ -26,7 +26,7 @@ export const CellContainer: React.FC<DivProps> = ({
   ...restProps
 }) => {
   return (
-    <div className={cn("flex-col", "items-center", className)} {...restProps}>
+    <div className={cn("flex-col","pl-1", className)} {...restProps}>
       {children}
     </div>
   );

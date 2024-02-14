@@ -4,6 +4,7 @@ import { TorrentListColumns } from "./columns";
 import { TorrentInfo } from "@/lib/data-types";
 import { useRefresher } from "@/hooks/useRefresher";
 import { EmptyContent } from "./EmptyContent";
+import { cn } from "@/lib/utils";
 
 export function TorrentList() {
   useRefresher();
@@ -11,6 +12,7 @@ export function TorrentList() {
   
   return (
     <>
+    <h1 className={cn("text-3xl", "font-bold", "text-center","mt-4", "text-blue-950")}>Your Added Torrents</h1>
       {torrentInfoList.length ? <DataTable columns={TorrentListColumns} data={torrentInfoList} /> : <EmptyContent />}
     </>
   );

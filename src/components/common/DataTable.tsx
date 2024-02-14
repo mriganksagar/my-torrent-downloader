@@ -20,6 +20,7 @@ import {
   DropdownMenuCheckboxItem,
 } from "@/shadui/ui/dropdown-menu";
 import { Button } from "@/shadui/ui/button";
+import { cn } from "@/lib/utils";
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData>[];
@@ -46,7 +47,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
         /> */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="outline" className={cn("ml-auto", "bg-blue-200", "hover:bg-blue-300")}>
               Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -80,7 +81,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                   return (
                     <TableHead
                       key={header.id}
-                      className="font-normal text-black bg-[rgb(246,246,246)]"
+                      className={cn("bg-slate-100", "text-black", "font-semibold")}
                     >
                       {header.isPlaceholder
                         ? null

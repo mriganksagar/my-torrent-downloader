@@ -81,23 +81,23 @@ const ActionsCell: React.FC<{ torrentId: string }> = ({ torrentId }) => {
     <DropdownMenuContent className="min-w-fit">
       <DropdownMenuItem
         onClick={() => onPauseTorrent(torrentId)}
-        className="justify-content gap-2"
+        className="gap-2"
       >
         <PauseLogo />
         Pause
       </DropdownMenuItem>
       <DropdownMenuItem
         onClick={() => onResumeTorrent(torrentId)}
-        className="justify-content gap-2"
+        className="gap-2"
       >
         <ResumeLogo />
         Resume
       </DropdownMenuItem>
       <DropdownMenuItem
         onClick={()=> navigate(`/torrents/${torrentId}/files`)}
-        className="justify-content gap-2"
+        className="gap-2"
       >
-        <FilesIcon className="text-green-500"/> 
+        <FilesIcon className="text-indigo-500"/> 
         Show Files
       </DropdownMenuItem>
     </DropdownMenuContent>
@@ -131,9 +131,9 @@ export const TorrentListColumns = [
     enableHiding: false,
   }),
   columnHelper.accessor("name", {
-    id: "name",
+    id: "Title",
     header() {
-      return <HeaderContainer>Name</HeaderContainer>;
+      return <HeaderContainer>Title</HeaderContainer>;
     },
     cell({ cell }) {
       return <CellContainer>{cell.getValue()}</CellContainer>;

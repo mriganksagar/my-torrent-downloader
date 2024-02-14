@@ -2,9 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Navigate, RouterProvider, createBrowserRouter} from 'react-router-dom'
 import App from './App.tsx'
-import { TorrentList, FileList} from './components';
+import { TorrentList } from './components';
 import { loadFilesInfo } from './lib/route-loaders/loadFileInfo.ts';
 import './tailwind.css'
+import { FilesView } from './components/FilesView.tsx';
 
 const router = createBrowserRouter([
   {
@@ -21,7 +22,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'torrents/:id/files',
-        element: <FileList/>,
+        element: <FilesView/>,
         loader: loadFilesInfo 
       }
     ]
