@@ -47,7 +47,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
         /> */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className={cn("ml-auto", "bg-blue-200", "hover:bg-blue-300")}>
+            <Button variant="outline" className={cn("ml-auto", "bg-blue-100", "hover:bg-blue-200")}>
               Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>

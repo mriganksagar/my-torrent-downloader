@@ -70,10 +70,6 @@ const onResumeTorrent = (torrentId: string) => {
 const ActionsCell: React.FC<{ torrentId: string }> = ({ torrentId }) => {
   const navigate = useNavigate();
 
-  //console logg to be removed later
-  console.log("logging torrent id in actions cell");
-  console.log(torrentId);
-  
   return (<DropdownMenu>
     <DropdownMenuTrigger asChild>
       <MoreHorizontal />

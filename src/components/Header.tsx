@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { PirateLogo } from "@/assets";
-import { AddTorrent } from "./AddTorrentNew";
+import { AddTorrent } from "./AddTorrent";
 
 export const Header = () => {
     return (

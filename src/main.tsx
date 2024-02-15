@@ -3,14 +3,19 @@ import ReactDOM from 'react-dom/client'
 import { Navigate, RouterProvider, createBrowserRouter} from 'react-router-dom'
 import App from './App.tsx'
 import { TorrentList } from './components';
-import { loadFilesInfo } from './lib/route-loaders/loadFileInfo.ts';
+import { loadFilesView } from './lib/route-loaders/loadFilesView.ts';
 import './tailwind.css'
 import { FilesView } from './components/FilesView.tsx';
+import { TestPage } from './TestPage.tsx';
 
 const router = createBrowserRouter([
   {
     path:'/',
     element: <Navigate to="/dashboard" />
+  },
+  {
+    path: '/testpage',
+    element: <TestPage />
   },
   {
     path:'/',
@@ -23,7 +28,7 @@ const router = createBrowserRouter([
       {
         path: 'torrents/:id/files',
         element: <FilesView/>,
-        loader: loadFilesInfo 
+        loader: loadFilesView 
       }
     ]
   }

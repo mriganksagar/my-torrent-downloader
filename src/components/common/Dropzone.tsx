@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { styled } from "@mui/material";
 import React, {
+    ChangeEvent,
     DragEventHandler,
     ReactNode,
     RefObject,
@@ -27,7 +28,7 @@ const ContentWrapper = styled("div")({
     gridRow: "1/2",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
 });
 
@@ -42,15 +43,22 @@ export function Dropzone({ onUpload, children, Element }: Props) {
         event?.stopPropagation();
     }, []);
 
+    const handleFileInputWhenBrowsed = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+        event?.preventDefault();
+        event?.stopPropagation();
+        const files = event.target?.files;
+        if (files?.length && files.length > 0) {
+            onUpload(files);
+        }
+    }, [onUpload]);
+
     const handleDrop: DragEventHandler = useCallback(
         (event) => {
             event?.preventDefault();
             event?.stopPropagation();
             setEnteredDrag(false);
-            console.log(event);
             const { files } = event.dataTransfer;
-            if (files?.length > 0) {
-                console.log("the dropped files are ", files);
+            if (files?.length > 0 && files.length > 0) {
                 onUpload(files);
             }
         },
@@ -61,8 +69,6 @@ export function Dropzone({ onUpload, children, Element }: Props) {
         (event) => {
             event?.preventDefault();
             event?.stopPropagation();
-            console.log("drag enter ho gya hai ");
-            console.log(event);
             if (event.target !== overlay.current) setEnteredDrag(true);
         },
         [setEnteredDrag]
@@ -72,24 +78,23 @@ export function Dropzone({ onUpload, children, Element }: Props) {
         (event) => {
             event?.preventDefault();
             event?.stopPropagation();
-            console.log("drag exit ho gya hai ");
-            console.log(event);
             if (event.target === overlay.current) setEnteredDrag(false);
         },
         [setEnteredDrag]
     );
 
     useEffect(() => {
-        console.log("i am inside useeffect and adding handlers");
         drop.current?.addEventListener("dragover", handleDragOver);
         drop.current?.addEventListener("drop", handleDrop);
         drop.current?.addEventListener("dragenter", handleDragEnter);
         drop.current?.addEventListener("dragleave", handleDragLeave);
+        drop.current?.addEventListener("change", handleFileInputWhenBrowsed);
         return () => {
             drop.current?.removeEventListener("dragover", handleDragOver);
             drop.current?.removeEventListener("drop", handleDrop);
             drop.current?.removeEventListener("dragenter", handleDragEnter);
             drop.current?.removeEventListener("dragleave", handleDragLeave);
+            drop.current?.removeEventListener('change', handleFileInputWhenBrowsed);
         };
     }, []);
 

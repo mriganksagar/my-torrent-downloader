@@ -2,7 +2,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { FileInfo } from "@/lib/data-types";
 import { HeaderContainer, CellContainer } from "./DivContainers";
 import { DownloadLogo, TimerLogo } from "@/assets";
-import { HardDrive, HardDriveIcon, Music4Icon, RouteIcon } from "lucide-react";
+import { HardDriveIcon, Music4Icon, RouteIcon } from "lucide-react";
 
 const columnHelper = createColumnHelper<FileInfo>();
 
