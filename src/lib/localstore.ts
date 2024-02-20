@@ -1,9 +1,9 @@
-import { LocalStorageKeys } from "@/globalContants";
+import { LocalStorageKeys } from "@/global-constants";
 
-export function storeTorrentToLocalStorage(torrentId: string) {
-  const __torrentIdsUnparsed = localStorage.get(LocalStorageKeys.TorrentIds);
+export function storeTorrentToLocalStorage(magUrl: string) {
+  const __urls = localStorage.getItem(LocalStorageKeys.TorrentIds);
   let torrentIds = []
-  if (__torrentIdsUnparsed) torrentIds = JSON.parse(__torrentIdsUnparsed);
-  torrentIds.push(torrentId);
-  localStorage.set(LocalStorageKeys.TorrentIds, JSON.stringify(torrentIds))
+  if (__urls) torrentIds = JSON.parse(__urls);
+  torrentIds.push(magUrl);
+  localStorage.setItem(LocalStorageKeys.TorrentIds, JSON.stringify(torrentIds))
 }

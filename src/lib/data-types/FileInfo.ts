@@ -16,6 +16,7 @@ export class FileInfo {
     // #_priority: Priority;
     #_path: string;
     #_type: string;
+    #_file__ref: TorrentFile;
     constructor(file: TorrentFile){
         this.#_id = crypto.randomUUID();
         this.#_name = file.name;
@@ -24,6 +25,11 @@ export class FileInfo {
         this.#_progress = file.progress;
         this.#_path = file.path;
         this.#_type = file.type;
+        this.#_file__ref = file;
+    }
+
+    get fileRef(){
+        return this.#_file__ref;
     }
 
     get id(){

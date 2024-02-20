@@ -15,19 +15,25 @@ import { Dropzone } from "./common/Dropzone";
 import { DropZoneInside } from "./DropZoneInside";
 import { useCallback, useRef, useState } from "react";
 import { webTorrentClient } from "@/lib/singleton";
+import { storeTorrentToLocalStorage } from "@/lib/localstore";
 
 export const AddTorrent = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<FileList>();
 
   const addTorrentHandler = useCallback(() => {
+    function __add(id){
+      webTorrentClient.add(id, (torrent)=>{
+        storeTorrentToLocalStorage(torrent.magnetURI);
+      })
+    }
     const magUrl = inputRef.current?.value;
     if (magUrl) {
-      webTorrentClient.add(magUrl);
+      __add(magUrl);
     }
     if (files?.length) {
       for (const file of files) {
-        webTorrentClient.add(file);
+        __add(file);
       }
     }
   }, [inputRef, files]);
@@ -57,7 +63,7 @@ export const AddTorrent = () => {
           <PlusIcon />
         </Button>
       </DialogTrigger>
-      <DialogContent className={cn("w-2/3", "max-w-2xl")} noClose={true}>
+      <DialogContent className={cn("max-w-2xl")} noClose={true}>
         <DialogHeader>
           <DialogTitle
             className={cn("flex", "justify-between", "items-center", "font-bold", "text-xl")}

@@ -7,6 +7,7 @@ import { loadFilesView } from './lib/route-loaders/loadFilesView.ts';
 import './tailwind.css'
 import { FilesView } from './components/FilesView.tsx';
 import { TestPage } from './TestPage.tsx';
+import { init } from './initialise.ts';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,8 @@ const router = createBrowserRouter([
     ]
   }
 ]);
+
+init();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

@@ -12,11 +12,12 @@ export const Header = () => {
                 "flex",
                 "justify-between",
                 "items-center",
-                "p-4"
+                "p-4",
+                "gap-2"
             )}
         >
             <PirateLogo className={cn("sm:size-20", "xsm:size-10")}/>
-            <h1 className={cn("text-2xl","font-bold" , "text-sky-100")}>
+            <h1 className={cn("sm:text-2xl","xsm:text-lg","font-bold", "text-center", "text-sky-100")}>
                 Torrent Downloader
             </h1>
             <AddTorrent />

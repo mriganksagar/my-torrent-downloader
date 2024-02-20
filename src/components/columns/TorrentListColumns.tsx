@@ -59,12 +59,16 @@ const StatusCell: React.FC<{ status: Status; progress: string }> = ({
   }
 };
 
-const onPauseTorrent = (torrentId: string) => {
-  webTorrentClient.get(torrentId).then((torrent: Torrent) => torrent.pause());
+const onPauseTorrent = async (torrentId: string) => {
+  const torrent: Torrent = await webTorrentClient.get(torrentId);
+  torrent.deselect(0, torrent.pieces.length-1, false);
+  torrent.pause();
 };
 
-const onResumeTorrent = (torrentId: string) => {
-  webTorrentClient.get(torrentId).then((torrent: Torrent) => torrent.resume());
+const onResumeTorrent = async (torrentId: string) => {
+  const torrent: Torrent = await webTorrentClient.get(torrentId);
+  torrent.select(0, torrent.pieces.length-1, false);
+  torrent.resume();
 };
 
 const ActionsCell: React.FC<{ torrentId: string }> = ({ torrentId }) => {

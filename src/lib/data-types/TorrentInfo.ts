@@ -46,7 +46,7 @@ export class TorrentInfo {
     return convertBytes(this.#_uploaded);
   }
   get eta() {
-    return this.#_getETA(this.#_eta);
+    return this.#_getETA();
   }
   get totalFiles() {
     if(Number.isNaN(this.#_totalFiles)) return "...";
@@ -67,10 +67,10 @@ export class TorrentInfo {
   //     time: _x[1],
   //   };
   // }
-  #_getETA(timeRemaining: number): string {
+  #_getETA(): string {
     // make time ramaining readable
-    if(this.#_eta === Infinity) return "Infinity";
-    return prettyMilliSeconds(timeRemaining, { compact: true, verbose: true });
+    if(this.#_eta === Infinity || isNaN(this.#_eta)) return "Infinity";
+    return prettyMilliSeconds(this.#_eta, { compact: true, verbose: true });
   }
 
   #_getStatus(torrent: Torrent): Status {

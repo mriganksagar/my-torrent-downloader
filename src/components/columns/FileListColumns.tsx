@@ -2,9 +2,51 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { FileInfo } from "@/lib/data-types";
 import { HeaderContainer, CellContainer } from "./DivContainers";
 import { DownloadLogo, TimerLogo } from "@/assets";
-import { HardDriveIcon, Music4Icon, RouteIcon } from "lucide-react";
+import {
+	DownloadIcon,
+	HardDriveIcon,
+	MoreHorizontalIcon,
+	Music4Icon,
+	RouteIcon,
+} from "lucide-react";
+import {
+	DropdownMenu,
+	DropdownMenuTrigger,
+	DropdownMenuContent,
+	DropdownMenuItem,
+} from "@/shadui/ui/dropdown-menu";
 
 const columnHelper = createColumnHelper<FileInfo>();
+
+const ActionsCell = ({row}) => {
+	return (
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
+				<MoreHorizontalIcon />
+			</DropdownMenuTrigger>
+			<DropdownMenuContent>
+				<DropdownMenuItem
+					className="gap-2"
+					onClick={async () => {
+						const fileBlob: Blob = await row.original.fileRef.blob();
+						const fileBlobUrl = URL.createObjectURL(fileBlob);
+						const anchorElement = document.createElement('a');
+						anchorElement.href = fileBlobUrl;
+						anchorElement.target = '_blank';
+						anchorElement.download = row.original.name;
+						anchorElement.style.display = "none";
+						document.body.appendChild(anchorElement); 
+						anchorElement.click();
+						document.removeChild(anchorElement);
+					}}
+				>
+					<DownloadIcon />
+					Save File
+				</DropdownMenuItem>
+			</DropdownMenuContent>
+		</DropdownMenu>
+	);
+};
 
 export const FileListColumns = [
 	columnHelper.accessor("name", {
@@ -21,7 +63,7 @@ export const FileListColumns = [
 		header() {
 			return (
 				<HeaderContainer>
-					<HardDriveIcon className="text-blue-950"/>
+					<HardDriveIcon className="text-blue-950" />
 					Size
 				</HeaderContainer>
 			);
@@ -63,7 +105,7 @@ export const FileListColumns = [
 		header() {
 			return (
 				<HeaderContainer>
-					<RouteIcon className="text-blue-950"/>
+					<RouteIcon className="text-blue-950" />
 					Path
 				</HeaderContainer>
 			);
@@ -84,6 +126,12 @@ export const FileListColumns = [
 		},
 		cell({ cell }) {
 			return <CellContainer>{cell.getValue()}</CellContainer>;
+		},
+	}),
+	columnHelper.display({
+		id: "actions",
+		cell({ row }) {
+			return <ActionsCell row={row}/>
 		},
 	}),
 ];

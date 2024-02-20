@@ -7,6 +7,7 @@ import { Torrent } from "webtorrent";
 import { Button } from "@/shadui/ui/button";
 import { cn } from "@/lib/utils";
 import { useCallback } from "react";
+import { ChevronLeftIcon } from "lucide-react";
 
 export const FilesList = ({torrent}) =>{
     useRefresher();
@@ -32,7 +33,8 @@ export const FilesView = () =>{
               )} 
               onClick={navigateToTorrentsView}
             >
-                Go back to Torrents List
+                <ChevronLeftIcon/>
+                 Torrents List
             </Button>
             <h1 className={cn("font-bold", "text-3xl", "text-blue-950", "text-center", "flex-1")}>{torrent?.name}</h1>
         </div>
