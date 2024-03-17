@@ -119,7 +119,7 @@ export const FileListColumns = [
 		header() {
 			return (
 				<HeaderContainer>
-					<Music4Icon className="text-blue-900" />
+					<Music4Icon className="text-blue-950" />
 					File Type
 				</HeaderContainer>
 			);
