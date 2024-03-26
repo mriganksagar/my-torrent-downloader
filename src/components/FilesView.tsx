@@ -10,13 +10,16 @@ import { useCallback } from "react";
 import { ChevronLeftIcon } from "lucide-react";
 import { useFilterSortDataTable } from "@/hooks/useFilterSortDataTable";
 
-export const FilesList = ({torrent}) =>{
+const FileList = ({torrent}:{torrent: Torrent}) =>{
     useRefresher();
     const data = torrent?.files?.map(file=> new FileInfo(file));
-    const table = useFilterSortDataTable({ data, columns: FileListColumns });
-    return <DataTable table={table}/>;
+    return <FileListDataTable data={data}/>;
 } 
 
+const FileListDataTable = ({data}: {data: FileInfo[]}) =>{
+    const table = useFilterSortDataTable({ data: data, columns: FileListColumns });
+    return <DataTable table={table}/>;
+} 
 export const FilesView = () =>{
     const navigate = useNavigate();
     const torrent: Torrent = useLoaderData();
@@ -44,7 +47,7 @@ export const FilesView = () =>{
             </Button>
             <h1 className={cn("font-bold", "text-xl", "sm:text-2xl", "sm:absolute", "sm:left-1/2", "sm:-translate-x-1/2", "text-blue-950", "text-center", "flex-1")}>{torrent?.name}</h1>
         </div>
-        <FilesList torrent={torrent}/>
+        <FileList torrent={torrent}/>
         </>
     )
 }

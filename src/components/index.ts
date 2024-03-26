@@ -1,9 +1,9 @@
 import { AddTorrent } from "./AddTorrent";
 import { TorrentList } from "./TorrentList";
-import { FilesList } from "./FilesView";
+import { FilesView } from "./FilesView";
 
 export {
     AddTorrent,
     TorrentList,
-    FilesList as FileList,
+    FilesView,
 }

@@ -142,6 +142,7 @@ export const TorrentListColumns = [
 				<HeaderContainer>
 					<Button
 						variant="ghost"
+						className="p-0 font-semibold"
 						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
 					>
 						Title

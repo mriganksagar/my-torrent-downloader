@@ -37,12 +37,21 @@ export function TorrentList2() {
 	);
 }
 
+
+function TorrentListDataTable({data}: {data: TorrentInfo[]}) {
+	const table = useFilterSortDataTable({ data, columns: TorrentListColumns });
+	return (
+		<DataTable
+			table={table}
+		/>
+	)
+}
+
 export function TorrentList() {
 	useRefresher();
 	const data = webTorrentClient.torrents.map(
 		(torrent) => new TorrentInfo(torrent),
 	);
-	const table = useFilterSortDataTable({ data, columns: TorrentListColumns });
 
 	return (
 		<>
@@ -59,7 +68,7 @@ export function TorrentList() {
 					>
 						Your Added Torrents
 					</h1>
-					<DataTable table={table} />
+					<TorrentListDataTable data={data}/>
 				</>
 			) : (
 				<EmptyContent />
