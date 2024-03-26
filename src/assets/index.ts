@@ -9,6 +9,7 @@ import ResumeLogo from './resume.svg?react';
 import UploadFileIcon from './uploadFile.svg?react';
 import PirateLogo from './pirate-ship.svg?react';
 import FrameLogo from './Frame.svg?react';
+import TrashLogo from './trash.svg?react';
 
 export {
     CalendarLogo,
@@ -19,6 +20,7 @@ export {
     PauseLogo,
     ResumeLogo,
     TimerLogo,
+    TrashLogo,
     UploadFileIcon,
     UploadLogo,
     PirateLogo,

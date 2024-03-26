@@ -1,4 +1,4 @@
-import { createColumnHelper } from "@tanstack/react-table";
+import { createColumnHelper, Row } from "@tanstack/react-table";
 import { FileInfo } from "@/lib/data-types";
 import { HeaderContainer, CellContainer } from "./DivContainers";
 import { DownloadLogo, TimerLogo } from "@/assets";
@@ -18,7 +18,20 @@ import {
 
 const columnHelper = createColumnHelper<FileInfo>();
 
-const ActionsCell = ({row}) => {
+const ActionsCell = ({row} :{row:Row<FileInfo>}) => {
+	const onFileSave = async () => {
+		const fileBlob: Blob = await row.original.fileRef.blob();
+		const fileBlobUrl = URL.createObjectURL(fileBlob);
+		const anchorElement = document.createElement('a');
+		anchorElement.href = fileBlobUrl;
+		anchorElement.target = '_blank';
+		anchorElement.download = row.original.name;
+		anchorElement.style.display = "none";
+		document.body.appendChild(anchorElement); 
+		anchorElement.click();
+		document.removeChild(anchorElement);
+	}
+	
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -27,18 +40,7 @@ const ActionsCell = ({row}) => {
 			<DropdownMenuContent>
 				<DropdownMenuItem
 					className="gap-2"
-					onClick={async () => {
-						const fileBlob: Blob = await row.original.fileRef.blob();
-						const fileBlobUrl = URL.createObjectURL(fileBlob);
-						const anchorElement = document.createElement('a');
-						anchorElement.href = fileBlobUrl;
-						anchorElement.target = '_blank';
-						anchorElement.download = row.original.name;
-						anchorElement.style.display = "none";
-						document.body.appendChild(anchorElement); 
-						anchorElement.click();
-						document.removeChild(anchorElement);
-					}}
+					onClick={onFileSave}
 				>
 					<DownloadIcon />
 					Save File

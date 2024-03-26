@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import React from "react";
+import React, { useState } from "react";
 import { Torrent } from "webtorrent";
 import { webTorrentClient } from "@/lib/singleton";
 import { createColumnHelper } from "@tanstack/react-table";
@@ -12,6 +12,7 @@ import {
 	PauseLogo,
 	ResumeLogo,
 	TimerLogo,
+	TrashLogo,
 	UploadLogo,
 } from "@/assets";
 import { CaretSortIcon } from "@radix-ui/react-icons";
@@ -25,6 +26,17 @@ import {
 import { CellContainer, HeaderContainer } from "./DivContainers";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/shadui/ui/button";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogContent,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTrigger,
+	AlertDialogTitle,
+	AlertDialogCancel,
+	AlertDialogDescription,
+} from "@/shadui/ui/alert-dialog";
 import { cn } from "@/lib/utils";
 
 const columnHelper = createColumnHelper<TorrentInfo>();
@@ -63,22 +75,33 @@ const StatusCell: React.FC<{ status: Status; progress: string }> = ({
 };
 
 const onPauseTorrent = async (torrentId: string) => {
-	const torrent: Torrent = await webTorrentClient.get(torrentId);
-	torrent.deselect(0, torrent.pieces.length - 1, false);
-	torrent.pause();
+	const torrent: Torrent | void = await webTorrentClient.get(torrentId);
+	if (torrent) {
+		torrent.deselect(0, torrent.pieces.length - 1, 0);
+		torrent.pause();
+	}
 };
 
 const onResumeTorrent = async (torrentId: string) => {
-	const torrent: Torrent = await webTorrentClient.get(torrentId);
-	torrent.select(0, torrent.pieces.length - 1, false);
-	torrent.resume();
+	const torrent: Torrent | void = await webTorrentClient.get(torrentId);
+	if (torrent) {
+		torrent.select(0, torrent.pieces.length - 1, 0);
+		torrent.resume();
+	}
+};
+
+const onRemoveTorrent = async (torrentId: string) => {
+	const torrent: Torrent | void = await webTorrentClient.get(torrentId);
+	if (torrent) {
+		torrent.destroy({ destroyStore: true });
+	}
 };
 
 const ActionsCell: React.FC<{ torrentId: string }> = ({ torrentId }) => {
 	const navigate = useNavigate();
-
+	const [isDropdownOpen, setIsDropDownOpen] = useState<boolean>(false);
 	return (
-		<DropdownMenu>
+		<DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropDownOpen}>
 			<DropdownMenuTrigger asChild>
 				<MoreHorizontal />
 			</DropdownMenuTrigger>
@@ -96,6 +119,38 @@ const ActionsCell: React.FC<{ torrentId: string }> = ({ torrentId }) => {
 				>
 					<ResumeLogo className="size-4" />
 					Resume
+				</DropdownMenuItem>
+				<DropdownMenuItem
+					className="gap-2"
+					onSelect={(event) => event.preventDefault()}
+				>
+					<AlertDialog>
+						<TrashLogo className="size-4" />
+						<AlertDialogTrigger>Remove</AlertDialogTrigger>
+						<AlertDialogContent>
+							<AlertDialogHeader>
+								<AlertDialogTitle>Are you sure?</AlertDialogTitle>
+								<AlertDialogDescription>
+									Doing this action will remove this Torrent and delete all the
+									downloaded data
+								</AlertDialogDescription>
+							</AlertDialogHeader>
+							<AlertDialogFooter>
+								<AlertDialogCancel onClick={() => setIsDropDownOpen(false)}>
+									Cancel
+								</AlertDialogCancel>
+								<AlertDialogAction
+									className={cn("bg-red-400", "hover:bg-red-500", "text-black")}
+									onClick={() => {
+										onRemoveTorrent(torrentId);
+										setIsDropDownOpen(false);
+									}}
+								>
+									Remove
+								</AlertDialogAction>
+							</AlertDialogFooter>
+						</AlertDialogContent>
+					</AlertDialog>
 				</DropdownMenuItem>
 				<DropdownMenuItem
 					onClick={() => navigate(`/torrents/${torrentId}/files`)}
